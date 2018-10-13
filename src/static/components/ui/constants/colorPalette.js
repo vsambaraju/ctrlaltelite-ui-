@@ -1,7 +1,7 @@
 const ColorPalette = {
-    PRIMARY: "#36a4ba",
+    PRIMARY: "#3F73EC",
     SECONDARY: "#ba4c36",
-    GRAY: "#9fa1a1"
+    GRAY: "#CCC"
 };
 
 Object.defineProperty(ColorPalette, "values", {

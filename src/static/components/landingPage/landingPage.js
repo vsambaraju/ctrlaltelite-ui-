@@ -12,14 +12,21 @@ const styles = () => ({
         width: "90px",
         height: "90px",
         backgroundColor: ColorPalette.PRIMARY,
+    },
+    avatarContainer: {
+        display: "flex",
+        flexFlow: "column nowrap",
+        alignItems: "center"
     }
 });
 
 const LandingPage = ({classes}) => (
     <div>
-        <Avatar className={classes.avatar}>
-            <PermPhoneMsg />
-        </Avatar>
+        <div className={classes.avatarContainer}>
+            <Avatar className={classes.avatar}>
+                <PermPhoneMsg />
+            </Avatar>
+        </div>
         <Login/>
     </div>
 );

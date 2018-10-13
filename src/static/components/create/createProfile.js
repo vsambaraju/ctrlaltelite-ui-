@@ -17,6 +17,8 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import RadioGroup from "@material-ui/core/RadioGroup";
 import Radio from "@material-ui/core/Radio";
 import Badge from '@material-ui/core/Badge';
+import Divider from '@material-ui/core/Divider';
+import VolunteerAvailability from "./volunteerAvailability";
 
 import Avatar from "@material-ui/core/Avatar/Avatar";
 import Person from "@material-ui/icons/Person";
@@ -146,7 +148,7 @@ class CreateProfile extends React.Component {
                         <InputLabel htmlFor="zip">Zip</InputLabel>
                         <Input id="zip" name="zip" autoComplete="zip" autoFocus />
                     </FormControl>
-                    <FormControl required fullWidth>
+                    <FormControl margin="normal" required fullWidth>
                         <InputLabel htmlFor="language-spoken">Languages Spoken</InputLabel>
                         <Select
                             multiple
@@ -192,11 +194,10 @@ class CreateProfile extends React.Component {
                             <FormControlLabel value="sms" control={<Radio name="contactPreference" />} label="Text" />
                         </RadioGroup>
                     </div>
+                    <Divider />
                     {
                         userType === UserTypes.VOLUNTEER &&
-                        <div>
-                            This is a volunteer Account
-                        </div>
+                        <VolunteerAvailability />
                     }
                 </form>
             </div>
