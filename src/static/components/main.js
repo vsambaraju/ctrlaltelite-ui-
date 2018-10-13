@@ -5,6 +5,7 @@ import Paper from "@material-ui/core/Paper/Paper";
 
 import LandingPage from "./landingPage/landingPage";
 import Create from "./create/create";
+import Appointments from "./appointments/appointments";
 
 const styles = theme => ({
     layout: {
@@ -37,6 +38,9 @@ class Main extends PureComponent {
                 </Paper>
                 <Paper className={classes.paper}>
                     <Create/>
+                </Paper>
+                <Paper className={classes.paper}>
+                    <Appointments/>
                 </Paper>
             </main>
         );
