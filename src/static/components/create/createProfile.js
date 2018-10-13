@@ -12,6 +12,7 @@ import Checkbox from '@material-ui/core/Checkbox';
 import ListItemText from '@material-ui/core/ListItemText';
 import Grid from '@material-ui/core/Grid'
 import TextField from '@material-ui/core/TextField'
+import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Button from "@material-ui/core/Button";
 import ColorPalette from "../ui/constants/colorPalette";
 
@@ -49,8 +50,12 @@ const languages = [
 class CreateProfile extends React.Component {
     state = {
         languages: [],
+        meetInPerson: true
     };
 
+    handleChange = event => {
+        this.setState({ [event.target.name]: event.target.value });
+    };
     selectLanguages = event => {
         this.setState({ languages: event.target.value });
     };
@@ -92,6 +97,15 @@ class CreateProfile extends React.Component {
                                 />
                             </Grid>
                             <Grid item xs={12} sm={6}>
+                                <TextField
+                                    required
+                                    id="area"
+                                    name="area"
+                                    label="Area"
+                                    fullWidth
+                                />
+                            </Grid>
+                            <Grid item xs={12} sm={6}>
                                 <FormControl className={classes.formControl}>
                                     <InputLabel htmlFor="language-spoken">Languages Spoken</InputLabel>
                                     <Select
@@ -111,6 +125,21 @@ class CreateProfile extends React.Component {
                                         ))}
                                     </Select>
                                 </FormControl>
+                            </Grid>
+                            <Grid item xs={12} sm={6}>
+                                <TextField
+                                    required
+                                    id="availability"
+                                    name="availability"
+                                    label="Availability"
+                                    fullWidth
+                                />
+                            </Grid>
+                            <Grid item xs={12} sm={6}>
+                                <FormControlLabel
+                                    control={<Checkbox value="inPerson" />}
+                                    label="Can Meet In Person"
+                                />
                             </Grid>
                         </Grid>
                     </form>
