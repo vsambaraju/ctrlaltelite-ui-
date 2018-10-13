@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 
 import ColorPalette from "../ui/constants/colorPalette";
+import UserTypes from "../ui/constants/userTypes";
 
 import {withStyles} from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
@@ -80,7 +81,7 @@ const languages = [
 class CreateProfile extends React.Component {
     static propTypes = {
         classes: PropTypes.object.isRequired,
-        userType: PropTypes.string.isRequired
+        userType: PropTypes.oneOf(UserTypes.values)
     };
     state = {
         languages: [],
@@ -101,7 +102,7 @@ class CreateProfile extends React.Component {
         return (
             <div className={classes.formContainer}>
                 <Typography component="h2" variant="headline" gutterBottom>
-                    Create {userType !== "Client" ? userType : ""} Account
+                    Create {userType === UserTypes.VOLUNTEER ? "Volunteer" : ""} Account
                 </Typography>
                 <Typography variant="subheading" gutterBottom>
                     We just need some basic information to get you all set up
@@ -191,6 +192,12 @@ class CreateProfile extends React.Component {
                             <FormControlLabel value="sms" control={<Radio name="contactPreference" />} label="Text" />
                         </RadioGroup>
                     </div>
+                    {
+                        userType === UserTypes.VOLUNTEER &&
+                        <div>
+                            This is a volunteer Account
+                        </div>
+                    }
                 </form>
             </div>
         );

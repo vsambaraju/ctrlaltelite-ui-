@@ -18,18 +18,7 @@ const styles = theme => ({
         height: "40px",
         backgroundColor: ColorPalette.PRIMARY,
     },
-    layout: {
-        width: 'auto',
-        display: 'block', // Fix IE11 issue.
-        marginLeft: theme.spacing.unit * 3,
-        marginRight: theme.spacing.unit * 3,
-        [theme.breakpoints.up(400 + theme.spacing.unit * 3 * 2)]: {
-            width: 400,
-            marginLeft: 'auto',
-            marginRight: 'auto',
-        },
-    },
-    paper: {
+    container: {
         marginTop: theme.spacing.unit * 8,
         display: 'flex',
         flexFlow: 'column nowrap',
@@ -44,25 +33,23 @@ const styles = theme => ({
 });
 
 const UserTypeSelector = ({classes, handleChange}) => (
-    <main className={classes.layout}>
-        <Paper className={classes.paper}>
-            <Avatar className={classes.avatar}>
-                <PermPhoneMsg />
-            </Avatar>
-            <Typography gutterBottom variant="headline" align="center">
-                Hello! It's nice to meet you.
-                <br/>
-                <br/>
-                Tell us what brought you here.
-            </Typography>
-            <Button style={{color: "white"}} variant="contained" className={classes.button} onClick={(event) => handleChange(UserTypes.CLIENT, event)}>
-                I need translation help.
-            </Button>
-            <Button style={{color: "white"}} variant="contained" className={classes.button} onClick={(event) => handleChange(UserTypes.VOLUNTEER, event)}>
-                I want to volunteer my language skills.
-            </Button>
-        </Paper>
-    </main>
+    <div className={classes.container}>
+        <Avatar className={classes.avatar}>
+            <PermPhoneMsg />
+        </Avatar>
+        <Typography gutterBottom variant="headline" align="center">
+            Hello! It's nice to meet you.
+            <br/>
+            <br/>
+            Tell us what brought you here.
+        </Typography>
+        <Button style={{color: "white"}} variant="contained" className={classes.button} onClick={(event) => handleChange(UserTypes.CLIENT, event)}>
+            I need translation help.
+        </Button>
+        <Button style={{color: "white"}} variant="contained" className={classes.button} onClick={(event) => handleChange(UserTypes.VOLUNTEER, event)}>
+            I want to volunteer my language skills.
+        </Button>
+    </div>
 );
 
 UserTypeSelector.propTypes = {

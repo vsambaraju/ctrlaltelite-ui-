@@ -13,10 +13,10 @@ class Create extends PureComponent {
     };
 
     render() {
-        console.log(this.state.userType);
+
         return (
             this.state.userType ?
-                <CreateProfile/> :
+                <CreateProfile userType={this.state.userType}/> :
                 <UserTypeSelector handleChange={this.handleUserTypeSelection}/>
         );
     }
