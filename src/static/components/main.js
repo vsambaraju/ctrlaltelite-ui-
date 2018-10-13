@@ -1,13 +1,11 @@
 import React, {PureComponent} from "react";
-import Header from "./header";
-import CoursesList from "./CourseList"
+import LandingPage from "./landingPage/landingPage";
 
 class Main extends PureComponent {
     render() {
         return (
             <div>
-                <Header />
-                <CoursesList />
+                <LandingPage/>
             </div>
         );
     }
