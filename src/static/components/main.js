@@ -29,7 +29,20 @@ const styles = theme => ({
     }
 });
 
+const WorkflowSteps = {
+    LOGIN: "Login",
+    REGISTER: "REGISTER",
+    CREATE: "Create",
+    APPOINTMENTS: "Appointments"
+};
+
 class Main extends PureComponent {
+    state = {
+        email: null
+    };
+    onLogin = () => {
+
+    };
     render() {
         const {classes} = this.props;
         return (

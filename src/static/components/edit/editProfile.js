@@ -94,7 +94,6 @@ class EditProfile extends React.Component {
         }).then(this.loadClientData);
     }
     loadClientData = client => {
-        debugger;
         const spokenLanguages = client && client.languages && client.languages.split(",") || [];
         this.setState({
             client,
