@@ -2,7 +2,7 @@ import React from "react";
 import Avatar from "@material-ui/core/Avatar";
 import {withStyles} from "@material-ui/core/styles";
 import PermPhoneMsg from "@material-ui/icons/PermPhoneMsg";
-import ColorPalette from "../ui/constants/colorPalette";
+import ColorPalette from "../../constants/colorPalette";
 import Login from "./login";
 
 const styles = () => ({

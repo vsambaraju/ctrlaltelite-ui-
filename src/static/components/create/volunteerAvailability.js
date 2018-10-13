@@ -12,7 +12,7 @@ import TextField from "@material-ui/core/TextField";
 import CheckCircle from "@material-ui/icons/CheckCircle";
 import Cancel from "@material-ui/icons/Cancel";
 
-import ColorPalette from "../ui/constants/colorPalette";
+import ColorPalette from "../../constants/colorPalette";
 
 const styles = theme => ({
     form: {

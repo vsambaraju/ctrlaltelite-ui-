@@ -6,8 +6,8 @@ import Button from "@material-ui/core/Button";
 import {withStyles} from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import PermPhoneMsg from "@material-ui/icons/PermPhoneMsg";
-import ColorPalette from "../ui/constants/colorPalette";
-import UserTypes from "../ui/constants/userTypes";
+import ColorPalette from "../../constants/colorPalette";
+import UserTypes from "../../constants/userTypes";
 
 const styles = theme => ({
     avatar: {

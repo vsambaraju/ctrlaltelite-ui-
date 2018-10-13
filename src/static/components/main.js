@@ -40,7 +40,7 @@ class Main extends PureComponent {
                     <Create/>
                 </Paper>
                 <Paper className={classes.paper}>
-                    <Appointments/>
+                    <Appointments />
                 </Paper>
             </main>
         );
