@@ -54,7 +54,7 @@ class VolunteerAvailability extends React.Component {
         classes: PropTypes.object.isRequired
     };
     state = {
-        inPerson: true,
+        inPerson: "yes",
         availability: {
             Sun: false,
             Mon: true,
@@ -83,8 +83,8 @@ class VolunteerAvailability extends React.Component {
                             value={this.state.inPerson}
                             onChange={this.onInPersonChange}
                         >
-                            <FormControlLabel value={true} control={<Radio />} label="Yes" />
-                            <FormControlLabel value={false} control={<Radio />} label="No" />
+                            <FormControlLabel value="yes" control={<Radio />} label="Yes" />
+                            <FormControlLabel value="no" control={<Radio />} label="No" />
                         </RadioGroup>
                     </div>
                     <div style={{marginTop: 10}}>
