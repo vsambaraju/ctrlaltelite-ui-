@@ -2,7 +2,6 @@ import React from "react";
 import Paper from "@material-ui/core/Paper";
 import Avatar from "@material-ui/core/Avatar";
 import {withStyles} from "@material-ui/core/styles";
-import Button from "@material-ui/core/Button";
 import PermPhoneMsg from "@material-ui/icons/PermPhoneMsg";
 import ColorPalette from "../ui/constants/colorPalette";
 import Login from "./login";

@@ -46,7 +46,7 @@ const languages = [
     'Italian'
 ];
 
-class CreateVolunteer extends React.Component {
+class CreateProfile extends React.Component {
     state = {
         languages: [],
     };
@@ -120,4 +120,4 @@ class CreateVolunteer extends React.Component {
     }
 }
 
-export default withStyles(styles)(CreateVolunteer);
+export default withStyles(styles)(CreateProfile);
