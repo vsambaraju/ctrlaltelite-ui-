@@ -26,7 +26,6 @@ class Create extends PureComponent {
     };
 
     onCreation = client => {
-        debugger;
         if(typeof this.props.onCreation === "function") this.props.onCreation(client);
     };
 

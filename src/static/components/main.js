@@ -59,7 +59,6 @@ class Main extends PureComponent {
         this.setState({step: WorkflowSteps.LOGIN})
     };
     onNewAccountCreation = client => {
-        debugger;
         this.setState({client, step: WorkflowSteps.APPOINTMENTS});
     };
     render() {

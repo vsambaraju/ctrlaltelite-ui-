@@ -205,7 +205,6 @@ class CreateProfile extends React.Component {
             "photoLocation": "",
             "age": 0,
         };
-        debugger;
         this.setState({loading: true, error: null});
         fetch(
             `/api/${this.props.userType === UserTypes.VOLUNTEER ? "volunteers" : "clients"}/`,
@@ -213,11 +212,9 @@ class CreateProfile extends React.Component {
         ).then(response => {
             return response.json();
         }).then(client => {
-            debugger;
             this.setState({loading: false});
             if(typeof this.props.onCreation === "function") this.props.onCreation(client);
         }).catch(error => {
-            debugger;
             this.setState({loading: false, error});
         })
     };
