@@ -3,10 +3,10 @@ import React, {PureComponent} from "react";
 import {withStyles} from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper/Paper";
 
-import LandingPage from "./landingPage/landingPage";
 import Create from "./create/create";
 import Appointments from "./appointments/appointments";
 import EditProfile from "./edit/editProfile";
+import Login from "./login/login";
 
 const styles = theme => ({
     layout: {
@@ -38,26 +38,44 @@ const WorkflowSteps = {
 
 class Main extends PureComponent {
     state = {
-        email: null
+        step: WorkflowSteps.LOGIN,
+        loading: false,
+        client: null,
+        error: null
     };
-    onLogin = () => {
-
+    onLogin = (email) => {
+        this.setState({loading: true, error: null});
+        fetch(`/api/clients/email/${email}/`, {method: "POST"}).then(response => {
+            return response.json();
+        }).then(client => {
+            this.setState({loading: false, client, step: WorkflowSteps.APPOINTMENTS})
+        }).catch(error => {
+            this.setState({loading: false, error});
+        })
+    };
+    createNewAccount = () => {
+        this.setState({step: WorkflowSteps.REGISTER})
+    };
+    backToLogin = () => {
+        this.setState({step: WorkflowSteps.LOGIN})
     };
     render() {
         const {classes} = this.props;
         return (
             <main className={classes.layout}>
                 <Paper className={classes.paper}>
-                    <EditProfile />
-                </Paper>
-                <Paper className={classes.paper}>
-                    <LandingPage />
-                </Paper>
-                <Paper className={classes.paper}>
-                    <Create />
-                </Paper>
-                <Paper className={classes.paper}>
-                    <Appointments />
+                    {
+                        this.state.step === WorkflowSteps.LOGIN &&
+                        <Login error={this.state.error} loading={this.state.loading} onLogin={this.onLogin} onNewAccountSelect={this.createNewAccount} />
+                    }
+                    {
+                        this.state.step === WorkflowSteps.REGISTER &&
+                        <Create onBack={this.backToLogin}/>
+                    }
+                    {
+                        this.state.step === WorkflowSteps.APPOINTMENTS &&
+                        <Appointments client={this.state.client} />
+                    }
                 </Paper>
             </main>
         );

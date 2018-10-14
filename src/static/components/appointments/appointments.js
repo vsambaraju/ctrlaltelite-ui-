@@ -1,10 +1,14 @@
 import React, {PureComponent} from "react";
-import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import AppointmentRequestModal from "./appointmentRequestModal";
+import EditProfile from "../edit/editProfile";
+import PropTypes from "prop-types";
 
 
 class Appointments extends PureComponent {
+    static propTypes = {
+        client: PropTypes.object.isRequired
+    };
 
     state = {
         open: false,
@@ -19,16 +23,16 @@ class Appointments extends PureComponent {
     };
 
     render() {
-
+        const {client} = this.props;
         return (
             <React.Fragment>
-                <Typography>
-                    This is where the Appointments will go.
-                </Typography>
                 <Button variant="contained" onClick={this.handleOpen}>
                     Create Appointment
                 </Button>
                 <AppointmentRequestModal open={this.state.open} onClose={this.handleClose}/>
+
+                <EditProfile client={client}/>
+
             </React.Fragment>
         );
     }

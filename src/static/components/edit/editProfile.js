@@ -71,7 +71,8 @@ const languages = [
 
 class EditProfile extends React.Component {
     static propTypes = {
-        classes: PropTypes.object.isRequired
+        classes: PropTypes.object.isRequired,
+        client: PropTypes.object.isRequired
     };
     state = {
         client: null,
@@ -88,10 +89,7 @@ class EditProfile extends React.Component {
         loading: false
     };
     componentDidMount() {
-        this.setState({loading: true});
-        fetch("/api/clients/email/Dave.woo@gmail.com/", {method: "POST"}).then(response => {
-            return response.json();
-        }).then(this.loadClientData);
+        this.loadClientData({...this.props.client});
     }
     loadClientData = client => {
         const spokenLanguages = client && client.languages && client.languages.split(",") || [];
@@ -131,7 +129,7 @@ class EditProfile extends React.Component {
                     </FormControl>
                     <FormControl margin="normal" required fullWidth>
                         <InputLabel htmlFor="lname">Last Name</InputLabel>
-                        <Input id="lname" name="lname" value={this.state.fname} autoComplete="lname" autoFocus />
+                        <Input id="lname" name="lname" value={this.state.lname} autoComplete="lname" autoFocus />
                     </FormControl>
                     <FormControl margin="normal" required fullWidth>
                         <InputLabel htmlFor="email">Email</InputLabel>

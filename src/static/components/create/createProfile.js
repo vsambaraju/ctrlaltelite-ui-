@@ -23,6 +23,7 @@ import VolunteerAvailability from "./volunteerAvailability";
 import Avatar from "@material-ui/core/Avatar/Avatar";
 import Person from "@material-ui/icons/Person";
 import Add from "@material-ui/icons/Add";
+import KeyboardArrowLeft from "@material-ui/icons/KeyboardArrowLeft";
 
 const styles = theme => ({
     form: {
@@ -83,7 +84,11 @@ const languages = [
 class CreateProfile extends React.Component {
     static propTypes = {
         classes: PropTypes.object.isRequired,
-        userType: PropTypes.oneOf(UserTypes.values)
+        userType: PropTypes.oneOf(UserTypes.values),
+        onBack: PropTypes.func,
+    };
+    static defaultProps = {
+        onBack: null
     };
     state = {
         languages: [],
@@ -99,11 +104,15 @@ class CreateProfile extends React.Component {
     selectLanguages = event => {
         this.setState({languages: event.target.value});
     };
+    onBack = () => {
+        if(typeof this.props.onBack === "function") this.props.onBack();
+    };
     render() {
         const {classes, userType} = this.props;
         return (
             <div className={classes.formContainer}>
-                <Typography component="h2" variant="headline" gutterBottom>
+                <KeyboardArrowLeft onClick={this.onBack} />
+                <Typography style={{marginTop: 10}} component="h2" variant="headline" gutterBottom>
                     Create {userType === UserTypes.VOLUNTEER ? "Volunteer" : ""} Account
                 </Typography>
                 <Typography variant="subheading" gutterBottom>
