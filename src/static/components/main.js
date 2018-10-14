@@ -44,7 +44,7 @@ class Main extends PureComponent {
     };
     onLogin = (email) => {
         this.setState({loading: true, error: null});
-        fetch(`/api/clients/email/${email}/`, {method: "POST"}).then(response => {
+        fetch(`/api/login/${email}/`, {method: "POST"}).then(response => {
             return response.json();
         }).then(client => {
             this.setState({loading: false, client, step: WorkflowSteps.NAVIGATION})
