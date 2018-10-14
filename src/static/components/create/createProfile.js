@@ -18,8 +18,8 @@ import RadioGroup from "@material-ui/core/RadioGroup";
 import Radio from "@material-ui/core/Radio";
 import Badge from '@material-ui/core/Badge';
 import Divider from '@material-ui/core/Divider';
-import VolunteerAvailability from "./volunteerAvailability";
 
+import VolunteerAvailability from "./volunteerAvailability";
 import Avatar from "@material-ui/core/Avatar/Avatar";
 import Person from "@material-ui/icons/Person";
 import Add from "@material-ui/icons/Add";
@@ -55,7 +55,13 @@ const styles = theme => ({
     radioGroup: {
         display: "flex",
         flexDirection: "row"
-    }
+    },
+    headerContainer: {
+        display: "flex",
+        flexFlow: "row nowrap",
+        alignItems: "center",
+        justifyContent: "space-between"
+    },
 });
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -111,10 +117,12 @@ class CreateProfile extends React.Component {
         const {classes, userType} = this.props;
         return (
             <div className={classes.formContainer}>
-                <KeyboardArrowLeft onClick={this.onBack} />
-                <Typography style={{marginTop: 10}} component="h2" variant="headline" gutterBottom>
-                    Create {userType === UserTypes.VOLUNTEER ? "Volunteer" : ""} Account
-                </Typography>
+                <div className={classes.headerContainer}>
+                    <KeyboardArrowLeft style={{cursor: "pointer"}} onClick={this.onBack} />
+                    <Typography style={{marginTop: 10}} component="h2" variant="headline" gutterBottom>
+                        Create {userType === UserTypes.VOLUNTEER ? "Volunteer" : ""} Account
+                    </Typography>
+                </div>
                 <Typography variant="subheading" gutterBottom>
                     We just need some basic information to get you all set up
                 </Typography>

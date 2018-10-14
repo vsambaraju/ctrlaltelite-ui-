@@ -40,7 +40,7 @@ const styles = theme => ({
         alignItems: "center"
     },
     createAccount: {
-        marginTop: "10px",
+        marginTop: "20px",
         display: "flex",
         flexFlow: "column nowrap",
         alignItems: "center"
