@@ -64,11 +64,6 @@ const languages = [
     'Italian'
 ];
 
-{/*<FormControlLabel*/}
-{/*control={<Checkbox value={this.state.meetInPerson} onChange={this.onMeetInPersonChange} />}*/}
-{/*label="Can Meet In Person"*/}
-{/*/>*/}
-
 class EditProfile extends React.Component {
     static propTypes = {
         classes: PropTypes.object.isRequired,

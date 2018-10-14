@@ -1,15 +1,36 @@
 import React, {PureComponent} from "react";
-import Button from "@material-ui/core/Button";
-import AppointmentRequestModal from "./appointmentRequestModal";
-import EditProfile from "../edit/editProfile";
-import PropTypes from "prop-types";
 
+import { withStyles } from '@material-ui/core/styles';
+import Button from "@material-ui/core/Button";
+
+import AppointmentRequestModal from "./appointmentRequestModal";
+import AppointmentsView from "./appointmentsView";
+import Typography from "@material-ui/core/Typography/Typography";
+
+import Add from '@material-ui/icons/Add';
+
+import ColorPalette from "../../constants/colorPalette";
+
+const styles = {
+    headerContainer: {
+        display: "flex",
+        flexFlow: "row nowrap",
+        alignItems: "center",
+        justifyContent: "space-between",
+        marginBottom: 30
+    },
+    createAppointment: {
+        backgroundColor: ColorPalette.PRIMARY,
+        color: "white"
+    },
+    container: {
+        display: "flex",
+        flexFlow: "column nowrap",
+        width: "100%"
+    },
+};
 
 class Appointments extends PureComponent {
-    static propTypes = {
-        client: PropTypes.object.isRequired
-    };
-
     state = {
         open: false,
     };
@@ -23,19 +44,25 @@ class Appointments extends PureComponent {
     };
 
     render() {
-        const {client} = this.props;
+        const {classes} = this.props;
         return (
-            <React.Fragment>
-                <Button variant="contained" onClick={this.handleOpen}>
-                    Create Appointment
-                </Button>
+            <div>
                 <AppointmentRequestModal open={this.state.open} onClose={this.handleClose}/>
+                <div className={classes.container}>
+                    <div className={classes.headerContainer}>
+                        <Typography component="h2" variant="headline" gutterBottom>
+                            Appointments
+                        </Typography>
+                        <Button className={classes.createAppointment} variant="contained" onClick={this.handleOpen}>
+                            <Add /> Create New
+                        </Button>
+                    </div>
+                    <AppointmentsView />
+                </div>
+            </div>
 
-                <EditProfile client={client}/>
-
-            </React.Fragment>
         );
     }
 }
 
-export default Appointments;
+export default withStyles(styles)(Appointments);

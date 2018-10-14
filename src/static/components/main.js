@@ -4,8 +4,8 @@ import {withStyles} from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper/Paper";
 
 import Create from "./create/create";
-import Appointments from "./appointments/appointments";
 import Login from "./login/login";
+import Navigation from "./navigation/navigation";
 
 const styles = theme => ({
     layout: {
@@ -32,7 +32,7 @@ const WorkflowSteps = {
     LOGIN: "Login",
     REGISTER: "REGISTER",
     CREATE: "Create",
-    APPOINTMENTS: "Appointments"
+    NAVIGATION: "Navigation"
 };
 
 class Main extends PureComponent {
@@ -47,7 +47,7 @@ class Main extends PureComponent {
         fetch(`/api/clients/email/${email}/`, {method: "POST"}).then(response => {
             return response.json();
         }).then(client => {
-            this.setState({loading: false, client, step: WorkflowSteps.APPOINTMENTS})
+            this.setState({loading: false, client, step: WorkflowSteps.NAVIGATION})
         }).catch(error => {
             this.setState({loading: false, error});
         })
@@ -59,7 +59,7 @@ class Main extends PureComponent {
         this.setState({step: WorkflowSteps.LOGIN})
     };
     onNewAccountCreation = client => {
-        this.setState({client, step: WorkflowSteps.APPOINTMENTS});
+        this.setState({client, step: WorkflowSteps.NAVIGATION});
     };
     render() {
         const {classes} = this.props;
@@ -75,8 +75,8 @@ class Main extends PureComponent {
                         <Create onBack={this.backToLogin} onCreation={this.onNewAccountCreation}/>
                     }
                     {
-                        this.state.step === WorkflowSteps.APPOINTMENTS &&
-                        <Appointments client={this.state.client} />
+                        this.state.step === WorkflowSteps.NAVIGATION &&
+                        <Navigation client={this.state.client} />
                     }
                 </Paper>
             </main>
