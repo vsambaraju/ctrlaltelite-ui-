@@ -45,7 +45,7 @@ const styles = theme => ({
         marginTop: 30
     },
     tableCell: {
-        padding: 5
+        padding: "0 5px"
     }
 });
 
@@ -63,9 +63,9 @@ class AppointmentsView extends React.PureComponent {
                 <Table>
                     <TableHead>
                         <TableRow>
-                            <TableCell>Date</TableCell>
-                            <TableCell>Type</TableCell>
-                            <TableCell>Translator</TableCell>
+                            <TableCell className={classes.tableCell}>Date</TableCell>
+                            <TableCell className={classes.tableCell}>Type</TableCell>
+                            <TableCell className={classes.tableCell}>Translator</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -119,9 +119,9 @@ class AppointmentsView extends React.PureComponent {
                 <Table>
                     <TableHead>
                         <TableRow>
-                            <TableCell>Date</TableCell>
-                            <TableCell>Type</TableCell>
-                            <TableCell>Translator</TableCell>
+                            <TableCell className={classes.tableCell}>Date</TableCell>
+                            <TableCell className={classes.tableCell}>Type</TableCell>
+                            <TableCell className={classes.tableCell}>Translator</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
