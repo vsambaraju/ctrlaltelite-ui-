@@ -11,6 +11,8 @@ import TableRow from '@material-ui/core/TableRow';
 import Avatar from '@material-ui/core/Avatar';
 
 import Person from "@material-ui/icons/Person";
+import Star from "@material-ui/icons/Star";
+import StarBorder from "@material-ui/icons/StarBorder";
 import ColorPalette from "../../constants/colorPalette";
 
 
@@ -28,6 +30,11 @@ const styles = theme => ({
         flexFlow: "row nowrap",
         justifyContent: "middle",
         alignItems: "center"
+    },
+    ratingContainer: {
+        display: "flex",
+        flexFlow: "column nowrap",
+        justifyContent: "middle",
     },
     tableContainer: {
         display: "flex",
@@ -70,7 +77,16 @@ class AppointmentsView extends React.PureComponent {
                                     <Avatar className={classes.avatarProfile}>
                                         <Person />
                                     </Avatar>
-                                    <span>Joe Smith</span>
+                                    <div className={classes.ratingContainer}>
+                                        <span>Joe Smith</span>
+                                        <span>
+                                            <Star style={{fontSize: 12}} />
+                                            <Star style={{fontSize: 12}} />
+                                            <Star style={{fontSize: 12}} />
+                                            <StarBorder style={{fontSize: 12}} />
+                                            <StarBorder style={{fontSize: 12}} />
+                                        </span>
+                                    </div>
                                 </div>
                             </TableCell>
                         </TableRow>
@@ -82,7 +98,16 @@ class AppointmentsView extends React.PureComponent {
                                     <Avatar className={classes.avatarProfile}>
                                         <Person />
                                     </Avatar>
-                                    <span>John Thompson</span>
+                                    <div className={classes.ratingContainer}>
+                                        <span>John Thompson</span>
+                                        <span>
+                                            <Star style={{fontSize: 12}} />
+                                            <Star style={{fontSize: 12}} />
+                                            <Star style={{fontSize: 12}} />
+                                            <Star style={{fontSize: 12}} />
+                                            <StarBorder style={{fontSize: 12}} />
+                                        </span>
+                                    </div>
                                 </div>
                             </TableCell>
                         </TableRow>
@@ -108,7 +133,16 @@ class AppointmentsView extends React.PureComponent {
                                     <Avatar className={classes.avatarProfile}>
                                         <Person />
                                     </Avatar>
-                                    <span>Joe Smith</span>
+                                    <div className={classes.ratingContainer}>
+                                        <span>Joe Smith</span>
+                                        <span>
+                                            <Star style={{fontSize: 12}} />
+                                            <Star style={{fontSize: 12}} />
+                                            <Star style={{fontSize: 12}} />
+                                            <StarBorder style={{fontSize: 12}} />
+                                            <StarBorder style={{fontSize: 12}} />
+                                        </span>
+                                    </div>
                                 </div>
                             </TableCell>
                         </TableRow>
@@ -120,7 +154,16 @@ class AppointmentsView extends React.PureComponent {
                                     <Avatar className={classes.avatarProfile}>
                                         <Person />
                                     </Avatar>
-                                    <span>John Thompson</span>
+                                    <div className={classes.ratingContainer}>
+                                        <span>John Thompson</span>
+                                        <span>
+                                            <Star style={{fontSize: 12}} />
+                                            <Star style={{fontSize: 12}} />
+                                            <Star style={{fontSize: 12}} />
+                                            <Star style={{fontSize: 12}} />
+                                            <StarBorder style={{fontSize: 12}} />
+                                        </span>
+                                    </div>
                                 </div>
                             </TableCell>
                         </TableRow>
