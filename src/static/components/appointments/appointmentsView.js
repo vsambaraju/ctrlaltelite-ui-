@@ -38,8 +38,7 @@ const styles = theme => ({
     },
     tableContainer: {
         display: "flex",
-        flexFlow: "column nowrap",
-        flexGrow: 0
+        flexFlow: "column nowrap"
     },
     history: {
         marginTop: 30

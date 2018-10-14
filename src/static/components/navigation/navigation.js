@@ -20,9 +20,12 @@ const styles = {
         justifyContent: "space-between"
     },
     content: {
-        overflowY: "auto"
+        display: "flex",
+        alignItems: "flex-start"
     },
     bottomNavigation: {
+        display: "flex",
+        alignItems: "flex-end",
         backgroundColor: ColorPalette.PRIMARY,
         height: "60px"
     },

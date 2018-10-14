@@ -3,21 +3,21 @@ import React, {PureComponent} from "react";
 import { withStyles } from '@material-ui/core/styles';
 import Button from "@material-ui/core/Button";
 
-import AppointmentRequestModal from "./appointmentRequestModal";
+import AppointmentRequest from "./appointmentRequest";
 import AppointmentsView from "./appointmentsView";
 import Typography from "@material-ui/core/Typography/Typography";
 
 import Add from '@material-ui/icons/Add';
 
 import ColorPalette from "../../constants/colorPalette";
+import PropTypes from "prop-types";
 
 const styles = {
     headerContainer: {
         display: "flex",
         flexFlow: "row nowrap",
         alignItems: "center",
-        justifyContent: "space-between",
-        marginBottom: 30
+        justifyContent: "space-between"
     },
     createAppointment: {
         backgroundColor: ColorPalette.PRIMARY,
@@ -28,9 +28,16 @@ const styles = {
         flexFlow: "column nowrap",
         width: "100%"
     },
+    viewContainer: {
+        marginBottom: 30
+    }
 };
 
 class Appointments extends PureComponent {
+    static propTypes = {
+        classes: PropTypes.object.isRequired,
+        client: PropTypes.object.isRequired
+    };
     state = {
         open: false,
     };
@@ -42,25 +49,34 @@ class Appointments extends PureComponent {
     handleClose = () => {
         this.setState({open: false});
     };
-
+    onSubmit = () => {
+        debugger;
+        this.setState({open: false});
+        // reload values
+    };
     render() {
-        const {classes} = this.props;
+        const {classes, client} = this.props;
         return (
-            <div>
-                <AppointmentRequestModal open={this.state.open} onClose={this.handleClose}/>
-                <div className={classes.container}>
-                    <div className={classes.headerContainer}>
-                        <Typography component="h2" variant="headline" gutterBottom>
-                            Appointments
-                        </Typography>
-                        <Button className={classes.createAppointment} variant="contained" onClick={this.handleOpen}>
-                            <Add /> Create New
-                        </Button>
+            <div className={classes.container}>
+                {
+                    this.state.open &&
+                    <AppointmentRequest clientId={client.id} onBack={this.handleClose} onSubmit={this.onSubmit} />
+                }
+                {
+                    !this.state.open &&
+                    <div className={classes.viewContainer}>
+                        <div className={classes.headerContainer}>
+                            <Typography component="h2" variant="headline" gutterBottom>
+                                Appointments
+                            </Typography>
+                            <Button className={classes.createAppointment} variant="contained" onClick={this.handleOpen}>
+                                <Add /> Create New
+                            </Button>
+                        </div>
+                        <AppointmentsView />
                     </div>
-                    <AppointmentsView />
-                </div>
+                }
             </div>
-
         );
     }
 }
