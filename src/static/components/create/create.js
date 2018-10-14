@@ -6,10 +6,12 @@ import PropTypes from "prop-types";
 class Create extends PureComponent {
 
     static propTypes = {
-        onBack: PropTypes.func
+        onBack: PropTypes.func,
+        onCreation: PropTypes.func
     };
     static defaultProps  = {
-        onBack: null
+        onBack: null,
+        onCreation: null
     };
     state = {
         userType: null
@@ -23,6 +25,11 @@ class Create extends PureComponent {
         if(typeof this.props.onBack === "function") this.props.onBack();
     };
 
+    onCreation = client => {
+        debugger;
+        if(typeof this.props.onCreation === "function") this.props.onCreation(client);
+    };
+
     selectNewUserType = () => {
         this.setState({userType: null});
     };
@@ -31,7 +38,7 @@ class Create extends PureComponent {
 
         return (
             this.state.userType ?
-                <CreateProfile userType={this.state.userType} onBack={this.selectNewUserType}/> :
+                <CreateProfile userType={this.state.userType} onCreation={this.onCreation} onBack={this.selectNewUserType}/> :
                 <UserTypeSelector handleChange={this.handleUserTypeSelection} onBack={this.onBack}/>
         );
     }

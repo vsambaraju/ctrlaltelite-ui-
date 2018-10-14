@@ -18,12 +18,15 @@ import RadioGroup from "@material-ui/core/RadioGroup";
 import Radio from "@material-ui/core/Radio";
 import Badge from '@material-ui/core/Badge';
 import Divider from '@material-ui/core/Divider';
+import Button from "@material-ui/core/Button";
+import TextField from "@material-ui/core/TextField";
 
-import VolunteerAvailability from "./volunteerAvailability";
 import Avatar from "@material-ui/core/Avatar/Avatar";
 import Person from "@material-ui/icons/Person";
 import Add from "@material-ui/icons/Add";
 import KeyboardArrowLeft from "@material-ui/icons/KeyboardArrowLeft";
+import CheckCircle from "@material-ui/icons/CheckCircle";
+import Cancel from "@material-ui/icons/Cancel";
 
 const styles = theme => ({
     form: {
@@ -62,6 +65,34 @@ const styles = theme => ({
         alignItems: "center",
         justifyContent: "space-between"
     },
+    dateSelector: {
+        display: "flex",
+        flexFlow: "row nowrap",
+        justifyContent: "space-between"
+    },
+    date: {
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center"
+    },
+    timeRange: {
+        marginTop: 10,
+        display: "flex",
+        flexFlow: "row nowrap",
+        justifyContent: "space-between"
+    },
+    timePicker: {
+        marginLeft: theme.spacing.unit,
+        marginRight: theme.spacing.unit
+    },
+    buttons: {
+        marginTop: 15,
+        display: "flex",
+        flexFlow: "row nowrap"
+    },
+    button: {
+        margin: theme.spacing.unit,
+    }
 });
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -92,14 +123,38 @@ class CreateProfile extends React.Component {
         classes: PropTypes.object.isRequired,
         userType: PropTypes.oneOf(UserTypes.values),
         onBack: PropTypes.func,
+        onCreation: PropTypes.func,
     };
     static defaultProps = {
-        onBack: null
+        onBack: null,
+        onCreation: null
     };
     state = {
+        fname: "",
+        lname: "",
+        email: "",
+        phone: "",
+        city: "",
+        state: "",
+        zip: "",
         languages: [],
-        gender: "male",
-        contactPreference: "email"
+        gender: "Male",
+        contactPreference: "Email",
+        inPerson: "yes",
+        days: {
+            Sun: false,
+            Mon: false,
+            Tue: false,
+            Wed: false,
+            Thu: false,
+            Fri: false,
+            Sat: false
+        },
+        loading: false,
+        error: null
+    };
+    onFieldChange = event => {
+        this.setState({[event.target.name]: event.target.value});
     };
     onGenderChange = event => {
         this.setState({gender: event.target.value});
@@ -110,8 +165,61 @@ class CreateProfile extends React.Component {
     selectLanguages = event => {
         this.setState({languages: event.target.value});
     };
+    onInPersonChange = event => {
+        this.setState({inPerson: event.target.value});
+    };
     onBack = () => {
         if(typeof this.props.onBack === "function") this.props.onBack();
+    };
+    handlers = {};
+    changeDate = (day) => {
+        if(!this.handlers) this.handlers = {};
+        if(!this.handlers[day]) this.handlers[day] = () => {
+            const days = {...this.state.days};
+            days[day] = !days[day];
+            this.setState({days})
+        };
+        return this.handlers[day];
+    };
+    onSubmit = event => {
+        if(event) {
+            event.preventDefault();
+            event.stopPropagation();
+        }
+        const newProfile = {
+            "firstName": this.state.fname,
+            "lastName": this.state.lname,
+            "languages": this.state.languages.join(","),
+            "city": this.state.city,
+            "state": this.state.state,
+            "postalCode": this.state.zip,
+            "emailAddress": this.state.email,
+            "phoneNumber": this.state.phone,
+            "gender": this.state.gender,
+            "contactMethod": this.state.contactPreference,
+            "meetInPerson": this.props.userType === UserTypes.VOLUNTEER ? this.state.inPerson === "yes" : false,
+            "username": "",
+            "streetAddress1": "",
+            "streetAddress2": "",
+            "averageRating": 0,
+            "photoLocation": "",
+            "age": 0,
+        };
+        debugger;
+        this.setState({loading: true, error: null});
+        fetch(
+            `/api/${this.props.userType === UserTypes.VOLUNTEER ? "volunteers" : "clients"}/`,
+            {method: "POST", headers: {'Accept': 'application/json', 'Content-Type': 'application/json'}, body: JSON.stringify(newProfile)}
+        ).then(response => {
+            return response.json();
+        }).then(client => {
+            debugger;
+            this.setState({loading: false});
+            if(typeof this.props.onCreation === "function") this.props.onCreation(client);
+        }).catch(error => {
+            debugger;
+            this.setState({loading: false, error});
+        })
     };
     render() {
         const {classes, userType} = this.props;
@@ -136,34 +244,34 @@ class CreateProfile extends React.Component {
                         Add Profile Image
                     </Typography>
                 </div>
-                <form className={classes.form} autoComplete="off">
+                <form className={classes.form} autoComplete="off" onSubmit={this.onSubmit}>
                     <FormControl margin="normal" required fullWidth>
                         <InputLabel htmlFor="fname">First Name</InputLabel>
-                        <Input id="fname" name="fname" autoComplete="fname" autoFocus />
+                        <Input id="fname" name="fname" value={this.state.fname} onChange={this.onFieldChange} autoComplete="fname" autoFocus />
                     </FormControl>
                     <FormControl margin="normal" required fullWidth>
                         <InputLabel htmlFor="lname">Last Name</InputLabel>
-                        <Input id="lname" name="lname" autoComplete="lname" autoFocus />
+                        <Input id="lname" name="lname" value={this.state.lname} onChange={this.onFieldChange} autoComplete="lname" autoFocus />
                     </FormControl>
                     <FormControl margin="normal" required fullWidth>
                         <InputLabel htmlFor="email">Email</InputLabel>
-                        <Input id="email" name="email" autoComplete="email" autoFocus />
+                        <Input id="email" name="email" value={this.state.email} onChange={this.onFieldChange} autoComplete="email" autoFocus />
                     </FormControl>
                     <FormControl margin="normal" fullWidth>
                         <InputLabel htmlFor="phone">Phone</InputLabel>
-                        <Input id="phone" name="phone" autoComplete="phone" autoFocus />
+                        <Input id="phone" name="phone" value={this.state.phone} onChange={this.onFieldChange} autoComplete="phone" autoFocus />
                     </FormControl>
                     <FormControl margin="normal" fullWidth>
                         <InputLabel htmlFor="city">City</InputLabel>
-                        <Input id="city" name="city" autoComplete="city" autoFocus />
+                        <Input id="city" name="city" value={this.state.city} onChange={this.onFieldChange} autoComplete="city" autoFocus />
                     </FormControl>
                     <FormControl margin="normal" fullWidth>
                         <InputLabel htmlFor="state">State</InputLabel>
-                        <Input id="state" name="state" autoComplete="state" autoFocus />
+                        <Input id="state" name="state" value={this.state.state} onChange={this.onFieldChange} autoComplete="state" autoFocus />
                     </FormControl>
                     <FormControl margin="normal" fullWidth>
                         <InputLabel htmlFor="zip">Zip</InputLabel>
-                        <Input id="zip" name="zip" autoComplete="zip" autoFocus />
+                        <Input id="zip" name="zip" value={this.state.zip} onChange={this.onFieldChange} autoComplete="zip" autoFocus />
                     </FormControl>
                     <FormControl margin="normal" required fullWidth>
                         <InputLabel htmlFor="language-spoken">Languages Spoken</InputLabel>
@@ -193,9 +301,9 @@ class CreateProfile extends React.Component {
                             value={this.state.gender}
                             onChange={this.onGenderChange}
                         >
-                            <FormControlLabel value="male" control={<Radio />} label="Male" />
-                            <FormControlLabel value="female" control={<Radio />} label="Female" />
-                            <FormControlLabel value="nonBinary" control={<Radio />} label="Non Binary" />
+                            <FormControlLabel value="Male" control={<Radio />} label="Male" />
+                            <FormControlLabel value="Female" control={<Radio />} label="Female" />
+                            <FormControlLabel value="NonBinary" control={<Radio />} label="Non Binary" />
                         </RadioGroup>
                     </div>
                     <div style={{marginTop: 10}}>
@@ -207,15 +315,98 @@ class CreateProfile extends React.Component {
                             value={this.state.contactPreference}
                             onChange={this.onContactPreferenceChange}
                         >
-                            <FormControlLabel value="email" control={<Radio name="contactPreference" />} label="Email" />
-                            <FormControlLabel value="sms" control={<Radio name="contactPreference" />} label="Text" />
+                            <FormControlLabel value="Email" control={<Radio name="contactPreference" />} label="Email" />
+                            <FormControlLabel value="SMS" control={<Radio name="contactPreference" />} label="Text" />
                         </RadioGroup>
                     </div>
                     <Divider />
                     {
                         userType === UserTypes.VOLUNTEER &&
-                        <VolunteerAvailability />
+                        <div>
+                            <div style={{marginTop: 10}}>
+                                <InputLabel>Are you willing to meet in person to preform local translations?</InputLabel>
+                                <RadioGroup
+                                    aria-label="inPerson"
+                                    name="inPerson"
+                                    className={classes.radioGroup}
+                                    value={this.state.inPerson}
+                                    onChange={this.onInPersonChange}
+                                >
+                                    <FormControlLabel value="yes" control={<Radio />} label="Yes" />
+                                    <FormControlLabel value="no" control={<Radio />} label="No" />
+                                </RadioGroup>
+                            </div>
+                            <div style={{marginTop: 10}}>
+                                <InputLabel>What is your usual availability?</InputLabel>
+                                <Typography style={{padding: "8px 0"}} variant="caption" gutterBottom>
+                                    Don't worry, you aren't locked into anything, we just need a general idea of when you
+                                    would be able to translate in any given week.
+                                </Typography>
+                                <div className={classes.dateSelector}>
+                                    {Object.keys(this.state.days).map(day => (
+                                        <div style={{cursor: "pointer"}} onClick={this.changeDate(day)} className={classes.date}>
+                                            <InputLabel style={{marginBottom: 5}}>{day}</InputLabel>
+                                            {
+                                                this.state.days[day] ?
+                                                    <CheckCircle fontSize="large" style={{color: ColorPalette.PRIMARY}}/> :
+                                                    <Cancel fontSize="large" style={{color: ColorPalette.GRAY}} />
+                                            }
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                            <div style={{marginTop: 20}}>
+                                <InputLabel>What hours would you typically be able to translate?</InputLabel>
+                                <div className={classes.timeRange}>
+                                    <TextField
+                                        id="start"
+                                        type="time"
+                                        defaultValue="00:00"
+                                        className={classes.timePicker}
+                                        InputLabelProps={{
+                                            shrink: true,
+                                        }}
+                                        inputProps={{
+                                            step: 300, // 5 min
+                                        }}
+                                    />
+                                    <span>to</span>
+                                    <TextField
+                                        id="end"
+                                        type="time"
+                                        defaultValue="00:00"
+                                        className={classes.timePicker}
+                                        InputLabelProps={{
+                                            shrink: true,
+                                        }}
+                                        inputProps={{
+                                            step: 300, // 5 min
+                                        }}
+                                    />
+                                </div>
+                            </div>
+                        </div>
                     }
+                    <div className={classes.buttons}>
+                        <Button
+                            type="submit"
+                            style={{backgroundColor: ColorPalette.PRIMARY}}
+                            fullWidth
+                            variant="contained"
+                            className={classes.button}
+                        >
+                            Save
+                        </Button>
+                        <Button
+                            style={{backgroundColor: ColorPalette.GRAY}}
+                            fullWidth
+                            variant="contained"
+                            onClick={this.onBack}
+                            className={classes.button}
+                        >
+                            Cancel
+                        </Button>
+                    </div>
                 </form>
             </div>
         );

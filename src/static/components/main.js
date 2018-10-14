@@ -5,7 +5,6 @@ import Paper from "@material-ui/core/Paper/Paper";
 
 import Create from "./create/create";
 import Appointments from "./appointments/appointments";
-import EditProfile from "./edit/editProfile";
 import Login from "./login/login";
 
 const styles = theme => ({
@@ -59,6 +58,10 @@ class Main extends PureComponent {
     backToLogin = () => {
         this.setState({step: WorkflowSteps.LOGIN})
     };
+    onNewAccountCreation = client => {
+        debugger;
+        this.setState({client, step: WorkflowSteps.APPOINTMENTS});
+    };
     render() {
         const {classes} = this.props;
         return (
@@ -70,7 +73,7 @@ class Main extends PureComponent {
                     }
                     {
                         this.state.step === WorkflowSteps.REGISTER &&
-                        <Create onBack={this.backToLogin}/>
+                        <Create onBack={this.backToLogin} onCreation={this.onNewAccountCreation}/>
                     }
                     {
                         this.state.step === WorkflowSteps.APPOINTMENTS &&

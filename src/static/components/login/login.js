@@ -127,7 +127,7 @@ class Login extends React.Component {
                         className={classes.submit}
                     >
                         {
-                            loading ? "Saving..." : "Sign in"
+                            loading ? "Signing in..." : "Sign in"
                         }
                     </Button>
                 </form>
