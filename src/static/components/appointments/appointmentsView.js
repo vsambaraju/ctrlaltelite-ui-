@@ -52,13 +52,23 @@ const styles = theme => ({
 class AppointmentsView extends React.PureComponent {
     static propTypes = {
         classes: PropTypes.object.isRequired,
-        serviceRequests: PropTypes.array
+        serviceRequests: PropTypes.array,
+        isClient: PropTypes.bool
     };
     static defaultProps = {
-        serviceRequests: []
+        serviceRequests: [],
+        isClient: false
+    };
+    getRating = (ratings) => {
+        const stars = [];
+        for(let i=0; i < 5; i++) {
+            if(ratings > i) stars.push(<Star key={i} style={{fontSize: 12}} />);
+            else stars.push(<StarBorder key={i} style={{fontSize: 12}} />)
+        }
+        return stars;
     };
     render() {
-        const {classes, serviceRequests} = this.props;
+        const {classes, serviceRequests, isClient} = this.props;
         const upcoming = serviceRequests.filter(request => request && request.status === "Pending");
         const history = serviceRequests.filter(request => request && request.status !== "Pending");
         return (
@@ -71,33 +81,32 @@ class AppointmentsView extends React.PureComponent {
                         <TableRow>
                             <TableCell className={classes.tableCell}>Date</TableCell>
                             <TableCell className={classes.tableCell}>Type</TableCell>
-                            <TableCell className={classes.tableCell}>Translator</TableCell>
+                            <TableCell className={classes.tableCell}>{isClient ? "Translator" : "Client"}</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
                         {
                             upcoming.length > 0 ?
-                                upcoming.map(request => {
+                                upcoming.map((request, index) => {
                                     let date;
                                     if(request.appointmentFrom) date = new Date(request.appointmentFrom);
 
-                                    return <TableRow>
-                                        <TableCell className={classes.tableCell}>{date ? `${date.getMonth()}/${date.getDay()}/${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}` : "Not Available"}</TableCell>
-                                        <TableCell className={classes.tableCell}>{request.isInPerson ? "In Person" : "Virtual"}</TableCell>
+                                    return <TableRow key={index}>
+                                        <TableCell className={classes.tableCell}>{date ? `${date.getMonth()}/${date.getDay()}/${date.getFullYear()}` : "Not Available"}</TableCell>
+                                        <TableCell className={classes.tableCell}>{request.inPerson ? "In Person" : "Virtual"}</TableCell>
                                         <TableCell className={classes.tableCell}>
                                             <div className={classes.avatarContainer}>
                                                 <Avatar className={classes.avatarProfile}>
                                                     <Person />
                                                 </Avatar>
                                                 <div className={classes.ratingContainer}>
-                                                    <span>{request.volunteerId || "Not Available"}</span>
-                                                    <span>
-                                                        <Star style={{fontSize: 12}} />
-                                                        <Star style={{fontSize: 12}} />
-                                                        <Star style={{fontSize: 12}} />
-                                                        <StarBorder style={{fontSize: 12}} />
-                                                        <StarBorder style={{fontSize: 12}} />
-                                                    </span>
+                                                    <span>{isClient && request.volunteerId && request.volunteerName || !isClient && request.clientId && request.clientName || "Not Available"}</span>
+                                                    {
+                                                        isClient && request.ratings &&
+                                                        <span>
+                                                            {this.getRating(request.ratings)}
+                                                        </span>
+                                                    }
                                                 </div>
                                             </div>
                                         </TableCell>
@@ -118,33 +127,32 @@ class AppointmentsView extends React.PureComponent {
                         <TableRow>
                             <TableCell className={classes.tableCell}>Date</TableCell>
                             <TableCell className={classes.tableCell}>Type</TableCell>
-                            <TableCell className={classes.tableCell}>Translator</TableCell>
+                            <TableCell className={classes.tableCell}>{isClient ? "Translator" : "Client"}</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
                         {
                             history.length > 0 ?
-                                history.map(request => {
+                                history.map((request, index) => {
                                     let date;
                                     if(request.appointmentFrom) date = new Date(request.appointmentFrom);
 
-                                    return <TableRow>
+                                    return <TableRow key={index}>
                                         <TableCell className={classes.tableCell}>{date ? `${date.getMonth()}/${date.getDay()}/${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}` : "Not Available"}</TableCell>
-                                        <TableCell className={classes.tableCell}>{request.isInPerson ? "In Person" : "Virtual"}</TableCell>
+                                        <TableCell className={classes.tableCell}>{request.inPerson ? "In Person" : "Virtual"}</TableCell>
                                         <TableCell className={classes.tableCell}>
                                             <div className={classes.avatarContainer}>
                                                 <Avatar className={classes.avatarProfile}>
                                                     <Person />
                                                 </Avatar>
                                                 <div className={classes.ratingContainer}>
-                                                    <span>{request.volunteerId || "Not Available"}</span>
-                                                    <span>
-                                                        <Star style={{fontSize: 12}} />
-                                                        <Star style={{fontSize: 12}} />
-                                                        <Star style={{fontSize: 12}} />
-                                                        <StarBorder style={{fontSize: 12}} />
-                                                        <StarBorder style={{fontSize: 12}} />
-                                                    </span>
+                                                    <span>{isClient && request.volunteerId && request.volunteerName || !isClient && request.clientId && request.clientName || "Not Available"}</span>
+                                                    {
+                                                        isClient && request.ratings &&
+                                                        <span>
+                                                            {this.getRating(request.ratings)}
+                                                        </span>
+                                                    }
                                                 </div>
                                             </div>
                                         </TableCell>

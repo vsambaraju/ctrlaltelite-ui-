@@ -52,6 +52,7 @@ class Appointments extends PureComponent {
         fetch(`/api/servicerequests/${this.props.client.profileType === "Client" ? "client" : "volunteer"}/${this.props.client.id}/`).then(response => {
             return response.json();
         }).then(serviceRequests => {
+            debugger;
             this.setState({loading: false, serviceRequests})
         }).catch(error => {
             this.setState({loading: false, error});
@@ -70,6 +71,7 @@ class Appointments extends PureComponent {
     };
     render() {
         const {classes, client} = this.props;
+        const isClient = this.props.client.profileType === "Client";
         return (
             <div className={classes.container}>
                 {
@@ -83,11 +85,14 @@ class Appointments extends PureComponent {
                             <Typography component="h2" variant="headline" gutterBottom>
                                 Appointments
                             </Typography>
-                            <Button className={classes.createAppointment} variant="contained" onClick={this.handleOpen}>
-                                <Add /> Create New
-                            </Button>
+                            {
+                                isClient &&
+                                <Button className={classes.createAppointment} variant="contained" onClick={this.handleOpen}>
+                                    <Add /> Create New
+                                </Button>
+                            }
                         </div>
-                        <AppointmentsView serviceRequests={this.state.serviceRequests} />
+                        <AppointmentsView isClient={isClient} serviceRequests={this.state.serviceRequests} />
                     </div>
                 }
             </div>

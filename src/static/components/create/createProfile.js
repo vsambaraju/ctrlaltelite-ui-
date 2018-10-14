@@ -133,6 +133,7 @@ class CreateProfile extends React.Component {
         fname: "",
         lname: "",
         email: "",
+        password: "",
         phone: "",
         city: "",
         state: "",
@@ -253,6 +254,17 @@ class CreateProfile extends React.Component {
                     <FormControl margin="normal" required fullWidth>
                         <InputLabel htmlFor="email">Email</InputLabel>
                         <Input id="email" name="email" value={this.state.email} onChange={this.onFieldChange} autoComplete="email" autoFocus />
+                    </FormControl>
+                    <FormControl margin="normal" required fullWidth>
+                        <InputLabel htmlFor="password">Password</InputLabel>
+                        <Input
+                            name="password"
+                            type="password"
+                            id="password"
+                            value={this.state.password}
+                            onChange={this.onFieldChange}
+                            autoComplete="current-password"
+                        />
                     </FormControl>
                     <FormControl margin="normal" fullWidth>
                         <InputLabel htmlFor="phone">Phone</InputLabel>
