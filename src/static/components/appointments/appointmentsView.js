@@ -13,6 +13,7 @@ import Avatar from '@material-ui/core/Avatar';
 import Person from "@material-ui/icons/Person";
 import Star from "@material-ui/icons/Star";
 import StarBorder from "@material-ui/icons/StarBorder";
+
 import ColorPalette from "../../constants/colorPalette";
 
 
@@ -50,10 +51,16 @@ const styles = theme => ({
 
 class AppointmentsView extends React.PureComponent {
     static propTypes = {
-        classes: PropTypes.object.isRequired
+        classes: PropTypes.object.isRequired,
+        serviceRequests: PropTypes.array
+    };
+    static defaultProps = {
+        serviceRequests: []
     };
     render() {
-        const {classes} = this.props;
+        const {classes, serviceRequests} = this.props;
+        const upcoming = serviceRequests.filter(request => request && request.status === "Pending");
+        const history = serviceRequests.filter(request => request && request.status !== "Pending");
         return (
             <div className={classes.tableContainer}>
                 <Typography variant="title" gutterBottom>
@@ -68,48 +75,39 @@ class AppointmentsView extends React.PureComponent {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        <TableRow>
-                            <TableCell className={classes.tableCell}>10/13/2018 8:47:00 PM</TableCell>
-                            <TableCell className={classes.tableCell}>Virtual</TableCell>
-                            <TableCell className={classes.tableCell}>
-                                <div className={classes.avatarContainer}>
-                                    <Avatar className={classes.avatarProfile}>
-                                        <Person />
-                                    </Avatar>
-                                    <div className={classes.ratingContainer}>
-                                        <span>Joe Smith</span>
-                                        <span>
-                                            <Star style={{fontSize: 12}} />
-                                            <Star style={{fontSize: 12}} />
-                                            <Star style={{fontSize: 12}} />
-                                            <StarBorder style={{fontSize: 12}} />
-                                            <StarBorder style={{fontSize: 12}} />
-                                        </span>
-                                    </div>
-                                </div>
-                            </TableCell>
-                        </TableRow>
-                        <TableRow>
-                            <TableCell className={classes.tableCell}>11/10/2018 12:00:00 PM</TableCell>
-                            <TableCell className={classes.tableCell}>In Person</TableCell>
-                            <TableCell className={classes.tableCell}>
-                                <div className={classes.avatarContainer}>
-                                    <Avatar className={classes.avatarProfile}>
-                                        <Person />
-                                    </Avatar>
-                                    <div className={classes.ratingContainer}>
-                                        <span>John Thompson</span>
-                                        <span>
-                                            <Star style={{fontSize: 12}} />
-                                            <Star style={{fontSize: 12}} />
-                                            <Star style={{fontSize: 12}} />
-                                            <Star style={{fontSize: 12}} />
-                                            <StarBorder style={{fontSize: 12}} />
-                                        </span>
-                                    </div>
-                                </div>
-                            </TableCell>
-                        </TableRow>
+                        {
+                            upcoming.length > 0 ?
+                                upcoming.map(request => {
+                                    let date;
+                                    if(request.appointmentFrom) date = new Date(request.appointmentFrom);
+
+                                    return <TableRow>
+                                        <TableCell className={classes.tableCell}>{date ? `${date.getMonth()}/${date.getDay()}/${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}` : "Not Available"}</TableCell>
+                                        <TableCell className={classes.tableCell}>{request.isInPerson ? "In Person" : "Virtual"}</TableCell>
+                                        <TableCell className={classes.tableCell}>
+                                            <div className={classes.avatarContainer}>
+                                                <Avatar className={classes.avatarProfile}>
+                                                    <Person />
+                                                </Avatar>
+                                                <div className={classes.ratingContainer}>
+                                                    <span>{request.volunteerId || "Not Available"}</span>
+                                                    <span>
+                                                        <Star style={{fontSize: 12}} />
+                                                        <Star style={{fontSize: 12}} />
+                                                        <Star style={{fontSize: 12}} />
+                                                        <StarBorder style={{fontSize: 12}} />
+                                                        <StarBorder style={{fontSize: 12}} />
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </TableCell>
+                                    </TableRow>;
+                                })
+                            :
+                                <TableRow>
+                                    <TableCell colSpan={3}>No Upcoming Requests</TableCell>
+                                </TableRow>
+                        }
                     </TableBody>
                 </Table>
                 <Typography className={classes.history} variant="title" gutterBottom>
@@ -124,48 +122,39 @@ class AppointmentsView extends React.PureComponent {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        <TableRow>
-                            <TableCell className={classes.tableCell}>10/13/2018 8:47:00 PM</TableCell>
-                            <TableCell className={classes.tableCell}>Virtual</TableCell>
-                            <TableCell className={classes.tableCell}>
-                                <div className={classes.avatarContainer}>
-                                    <Avatar className={classes.avatarProfile}>
-                                        <Person />
-                                    </Avatar>
-                                    <div className={classes.ratingContainer}>
-                                        <span>Joe Smith</span>
-                                        <span>
-                                            <Star style={{fontSize: 12}} />
-                                            <Star style={{fontSize: 12}} />
-                                            <Star style={{fontSize: 12}} />
-                                            <StarBorder style={{fontSize: 12}} />
-                                            <StarBorder style={{fontSize: 12}} />
-                                        </span>
-                                    </div>
-                                </div>
-                            </TableCell>
-                        </TableRow>
-                        <TableRow>
-                            <TableCell className={classes.tableCell}>11/10/2018 12:00:00 PM</TableCell>
-                            <TableCell className={classes.tableCell}>In Person</TableCell>
-                            <TableCell className={classes.tableCell}>
-                                <div className={classes.avatarContainer}>
-                                    <Avatar className={classes.avatarProfile}>
-                                        <Person />
-                                    </Avatar>
-                                    <div className={classes.ratingContainer}>
-                                        <span>John Thompson</span>
-                                        <span>
-                                            <Star style={{fontSize: 12}} />
-                                            <Star style={{fontSize: 12}} />
-                                            <Star style={{fontSize: 12}} />
-                                            <Star style={{fontSize: 12}} />
-                                            <StarBorder style={{fontSize: 12}} />
-                                        </span>
-                                    </div>
-                                </div>
-                            </TableCell>
-                        </TableRow>
+                        {
+                            history.length > 0 ?
+                                history.map(request => {
+                                    let date;
+                                    if(request.appointmentFrom) date = new Date(request.appointmentFrom);
+
+                                    return <TableRow>
+                                        <TableCell className={classes.tableCell}>{date ? `${date.getMonth()}/${date.getDay()}/${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}` : "Not Available"}</TableCell>
+                                        <TableCell className={classes.tableCell}>{request.isInPerson ? "In Person" : "Virtual"}</TableCell>
+                                        <TableCell className={classes.tableCell}>
+                                            <div className={classes.avatarContainer}>
+                                                <Avatar className={classes.avatarProfile}>
+                                                    <Person />
+                                                </Avatar>
+                                                <div className={classes.ratingContainer}>
+                                                    <span>{request.volunteerId || "Not Available"}</span>
+                                                    <span>
+                                                        <Star style={{fontSize: 12}} />
+                                                        <Star style={{fontSize: 12}} />
+                                                        <Star style={{fontSize: 12}} />
+                                                        <StarBorder style={{fontSize: 12}} />
+                                                        <StarBorder style={{fontSize: 12}} />
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </TableCell>
+                                    </TableRow>;
+                                })
+                                :
+                                <TableRow>
+                                    <TableCell colSpan={3}>You have not made any requests yet.</TableCell>
+                                </TableRow>
+                        }
                     </TableBody>
                 </Table>
             </div>

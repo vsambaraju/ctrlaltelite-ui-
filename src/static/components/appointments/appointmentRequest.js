@@ -146,10 +146,8 @@ class AppointmentRequest extends React.Component {
             `/api/servicerequests/`,
             {method: "POST", headers: {'Accept': 'application/json', 'Content-Type': 'application/json'}, body: JSON.stringify(serviceRequest)}
         ).then(() => {
-            debugger;
             if(typeof this.props.onSubmit === "function") this.props.onSubmit();
         }).catch(error => {
-            debugger;
             this.setState({loading: false, error});
         })
     };

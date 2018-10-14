@@ -91,13 +91,6 @@ class SimpleBottomNavigation extends React.Component {
                         label="Profile"
                         icon={<Person style={{color: ColorPalette.GRAY}} />}
                     />
-                    <BottomNavigationAction
-                        value={navigation.SEARCH}
-                        className={classes.bottomNavigationAction}
-                        classes={{selected: classes.selected}}
-                        label="Search"
-                        icon={<Search style={{color: ColorPalette.GRAY}} />}
-                    />
                 </BottomNavigation>
             </div>
         );

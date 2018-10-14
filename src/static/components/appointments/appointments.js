@@ -40,8 +40,23 @@ class Appointments extends PureComponent {
     };
     state = {
         open: false,
+        serviceRequests: [],
+        loading: false,
+        error: null
     };
-
+    componentDidMount() {
+        this.setState({loading: true, error: null});
+        this.getServiceRequests();
+    }
+    getServiceRequests = () => {
+        fetch(`/api/servicerequests/${this.props.client.profileType === "Client" ? "client" : "volunteer"}/${this.props.client.id}/`).then(response => {
+            return response.json();
+        }).then(serviceRequests => {
+            this.setState({loading: false, serviceRequests})
+        }).catch(error => {
+            this.setState({loading: false, error});
+        });
+    };
     handleOpen = () => {
         this.setState({open: true});
     };
@@ -50,9 +65,8 @@ class Appointments extends PureComponent {
         this.setState({open: false});
     };
     onSubmit = () => {
-        debugger;
         this.setState({open: false});
-        // reload values
+        this.getServiceRequests();
     };
     render() {
         const {classes, client} = this.props;
@@ -73,7 +87,7 @@ class Appointments extends PureComponent {
                                 <Add /> Create New
                             </Button>
                         </div>
-                        <AppointmentsView />
+                        <AppointmentsView serviceRequests={this.state.serviceRequests} />
                     </div>
                 }
             </div>
