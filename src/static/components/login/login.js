@@ -94,7 +94,7 @@ class Login extends React.Component {
                         <PermPhoneMsg />
                     </Avatar>
                 </div>
-                <form className={classes.form}>
+                <form className={classes.form} onSubmit={this.logIn}>
                     <FormControl disabled={loading} margin="normal" required fullWidth>
                         <InputLabel htmlFor="email">Email Address</InputLabel>
                         <Input id="email" name="email" value={this.state.email} onChange={this.onChange} autoComplete="email" autoFocus />
@@ -121,7 +121,7 @@ class Login extends React.Component {
                     }
                     <Button
                         disabled={loading}
-                        onClick={this.logIn}
+                        type="submit"
                         fullWidth
                         variant="contained"
                         className={classes.submit}
