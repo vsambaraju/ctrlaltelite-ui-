@@ -12,6 +12,7 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import RadioGroup from "@material-ui/core/RadioGroup";
 import Radio from "@material-ui/core/Radio";
 import Modal from '@material-ui/core/Modal';
+import Button from "@material-ui/core/Button";
 
 const styles = theme => ({
     form: {
@@ -102,6 +103,10 @@ class AppointmentRequestModal extends React.Component {
                                     <FormControlLabel value="email" control={<Radio name="contactPreference" />} label="Email" />
                                     <FormControlLabel value="sms" control={<Radio name="contactPreference" />} label="Text" />
                                 </RadioGroup>
+                            </div>
+                            <div style={{marginTop: 10}}>
+                                <Button variant="contained" style={{marginRight: 15}}>Save</Button>
+                                <Button variant="contained" onClick={this.props.onClose}>Close</Button>
                             </div>
                         </form>
                     </div>
